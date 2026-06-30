@@ -11,22 +11,10 @@
     --line:#3a6f6c; --text:#f2f4f5; --muted:#8c9196;
   }
   *{box-sizing:border-box;}
-  body{margin:0;background:var(--bg);background-color:var(--bg);background-image:none;background-size:cover;background-position:center;background-repeat:no-repeat;color:var(--text);overflow:hidden;
+  body{margin:0;background:var(--bg);background-color:var(--bg);background-image:url('wp16410977-world-cup-2026-desktop-wallpapers.webp');background-size:cover;background-position:center;background-repeat:no-repeat;color:var(--text);overflow:hidden;
     font-family:"Arial Narrow",Arial,system-ui,sans-serif;-webkit-font-smoothing:antialiased;}
   body::before{content:"";position:fixed;inset:0;background:rgba(0,0,0,.45);pointer-events:none;z-index:-1;}
   .header{display:none;}
-  .toolbar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:4px 16px 0;align-items:center;}
-  .toolbar button{background:var(--empty);color:var(--text);border:1px solid var(--empty-line);
-    border-radius:8px;padding:8px 14px;font-size:12px;letter-spacing:1px;text-transform:uppercase;
-    cursor:pointer;font-family:inherit;}
-  .toolbar button:hover{background:#26282f;}
-  .toolbar .status{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);}
-  .toolbar .bg-select-wrap{display:none;align-items:center;gap:6px;}
-  .toolbar .bg-select-wrap.show{display:flex;}
-  .toolbar .bg-select{background:#111318;border:1px solid #2b2d34;color:var(--text);border-radius:999px;padding:6px 10px;font-size:10px;letter-spacing:1px;text-transform:uppercase;font-family:inherit;}
-  .toolbar .status.on{color:var(--win);} 
-  .edit-trigger{position:fixed;top:12px;right:12px;opacity:.35;transition:opacity .2s ease;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);text-decoration:none;z-index:60;}
-  .edit-trigger:hover{opacity:1;color:var(--text);} 
   /* scaler: measures available width and shrinks the bracket to fit */
   .scroll{padding:14px 10px 14px;overflow:hidden;min-height:calc(100vh - 30px);}
   .scaler{margin:0 auto;overflow:hidden;}
@@ -71,61 +59,13 @@
   .champ .winnerName{font-size:18px;font-weight:900;text-transform:uppercase;margin-top:4px;
     color:var(--win);min-height:22px;}
   .hint{text-align:center;color:var(--muted);font-size:12px;padding:6px 16px 6px;}
-  .editor-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;
-    align-items:center;justify-content:center;z-index:50;}
-  .editor-backdrop.open{display:flex;}
-  .editor{background:#141519;border:1px solid #2b2d34;border-radius:14px;padding:22px;width:min(340px,92vw);}
-  .editor h3{margin:0 0 16px;font-size:14px;letter-spacing:1px;text-transform:uppercase;text-align:center;}
-  .editor .row{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
-  .editor .row .nm{flex:1;font-size:14px;font-weight:700;text-transform:uppercase;display:flex;align-items:center;gap:8px;}
-  .editor .nm .flag{width:24px;height:16px;}
-  .editor input{width:56px;background:#0a0a0c;border:1px solid #2b2d34;color:var(--text);
-    border-radius:8px;padding:8px;text-align:center;font-size:16px;font-family:inherit;}
-  .editor .actions{display:flex;gap:8px;margin-top:8px;}
-  .editor .actions button{flex:1;border:none;border-radius:8px;padding:10px;font-size:12px;
-    letter-spacing:1px;text-transform:uppercase;cursor:pointer;font-family:inherit;}
-  .editor .save{background:var(--win);color:var(--win-text);font-weight:800;}
-  .editor .clear{background:#2b2d34;color:var(--text);}
-  .editor .note{font-size:11px;color:var(--muted);text-align:center;margin-top:10px;}
 </style>
 </head>
 <body>
-  <a href="#" class="edit-trigger" id="editTrigger" title="Press Cmd+Alt+E">Edit</a>
-  <div class="toolbar">
-    <span class="status" id="status"></span>
-    <div class="bg-select-wrap" id="bgSelectWrap">
-      <select class="bg-select" id="bgSelect">
-        <option value="">Default</option>
-      </select>
-    </div>
-  </div>
-
   <div class="scroll"><div class="scaler" id="scaler"><div class="bracket" id="bracket"></div></div></div>
-
-  <div class="editor-backdrop" id="editorBackdrop">
-    <div class="editor">
-      <h3 id="editorTitle">Enter score</h3>
-      <div class="row"><div class="nm" id="nmA"></div><input type="number" min="0" id="scoreA" inputmode="numeric"></div>
-      <div class="row"><div class="nm" id="nmB"></div><input type="number" min="0" id="scoreB" inputmode="numeric"></div>
-      <div class="actions"><button class="clear" id="clearBtn">Clear</button><button class="save" id="saveBtn">Save</button></div>
-      <div class="note">Enter the score. If it's a tie, you'll be asked who won on penalties.</div>
-    </div>
-  </div>
 
 <script>
 // ====== CONFIG ======
-var EDIT_PASSWORD = "raabi2026";
-var BACKGROUND_IMAGES = [
-  {label:"Default", value:""},
-  {label:"Wallpaper 1", value:"wp15010759-fifa-world-cup-2026-hd-wallpapers.webp"},
-  {label:"Wallpaper 2", value:"wp16404344-world-cup-2026-4k-wallpapers.webp"},
-  {label:"Wallpaper 3", value:"wp16410977-world-cup-2026-desktop-wallpapers.webp"},
-  {label:"Wallpaper 4", value:"wp16410978-world-cup-2026-desktop-wallpapers.webp"},
-  {label:"Wallpaper 5", value:"wp16426258-fifa-world-cup-2026-wallpapers.webp"},
-  {label:"Wallpaper 6", value:"wp16426266-fifa-world-cup-2026-wallpapers.webp"},
-  {label:"Wallpaper 7", value:"wp16426270-fifa-world-cup-2026-wallpapers.webp"},
-  {label:"Wallpaper 8", value:"wp16426274-fifa-world-cup-2026-wallpapers.webp"}
-];
 
 var HIGHLIGHT_LINKS = {
   m0: "https://www.youtube.com/watch?v=-gtI96YhJek",
@@ -211,13 +151,12 @@ ALL.push(FINAL); rightRounds.forEach(function(r){r.forEach(function(m){ALL.push(
 var byId={}; ALL.forEach(function(m){byId[m.id]=m;});
 
 // ====== STATE ======
-var editable=false;
 var bracket=document.getElementById("bracket");
 
 function teamHTML(team,score,state,pens){
   if(!team) return '<div class="team empty"><span class="flag"></span><span class="name">TBD</span><span class="score"></span></div>';
   var sc = (score===null||score===undefined)?"":score;
-  var cls="team "+state+(editable?" clickable":"");
+  var cls="team "+state;
   var pTag = pens ? '<span class="ptag">P</span>' : '';
   return '<div class="'+cls+'">'+flagBox(team.code)+'<span class="name">'+team.name+'</span>'+pTag+'<span class="score">'+sc+'</span></div>';
 }
@@ -279,57 +218,16 @@ function fitBracket(){
 }
 window.addEventListener("resize", fitBracket);
 
-// ====== EDIT INTERACTION ======
-var editing=null;
-var backdrop=document.getElementById("editorBackdrop");
+// ====== INTERACTION ======
 function attach(){
   var nodes=document.querySelectorAll(".match");
   nodes.forEach(function(el){
     el.onclick=function(){
-      if(editable){ openEditor(el.getAttribute("data-match")); return; }
       var url = el.getAttribute("data-url");
       if(url){ window.open(url, "_blank"); }
     };
   });
 }
-function openEditor(mid){
-  if(!editable) return;
-  var m=byId[mid]; if(!m.a||!m.b) return;
-  editing=mid;
-  document.getElementById("nmA").innerHTML=flagBox(m.a.code)+" "+m.a.name;
-  document.getElementById("nmB").innerHTML=flagBox(m.b.code)+" "+m.b.name;
-  document.getElementById("scoreA").value=(m.sa===null?"":m.sa);
-  document.getElementById("scoreB").value=(m.sb===null?"":m.sb);
-  backdrop.classList.add("open");
-  document.getElementById("scoreA").focus();
-}
-function closeEditor(){backdrop.classList.remove("open");editing=null;}
-
-document.getElementById("saveBtn").onclick=function(){
-  if(!editing) return;
-  var m=byId[editing];
-  var a=parseFloat(document.getElementById("scoreA").value);
-  var b=parseFloat(document.getElementById("scoreB").value);
-  if(isNaN(a)||isNaN(b)){closeEditor();return;}
-  var pens=false, side;
-  if(a===b){
-    // tie: ask who won the penalty shootout
-    var ans=prompt("Tied "+a+"-"+b+". Who won on penalties? Type "+m.a.name+" or "+m.b.name+":");
-    if(ans===null) return;
-    ans=ans.trim().toLowerCase();
-    if(ans===m.a.name.toLowerCase()) side="a";
-    else if(ans===m.b.name.toLowerCase()) side="b";
-    else { alert("Didn't recognize that team name."); return; }
-    pens=true;
-  } else {
-    side=a>b?"a":"b";
-  }
-  m.sa=a;m.sb=b;m.pens=pens; setWinner(m,side); save(); render(); closeEditor();
-};
-document.getElementById("clearBtn").onclick=function(){
-  if(!editing) return; clearMatch(byId[editing]); save(); render(); closeEditor();
-};
-backdrop.onclick=function(e){if(e.target===backdrop)closeEditor();};
 
 function setWinner(m,side){
   var newWinner=side==="a"?m.a:m.b;
@@ -351,110 +249,26 @@ function propagateClear(m){
   resetResult(next); propagateClear(next);
 }
 
-// ====== PERSISTENCE ======
-function save(){
-  var state=ALL.map(function(m){return {id:m.id,sa:m.sa,sb:m.sb,winner:m.winner,pens:m.pens,
-    a:m.a?m.a.name:null,b:m.b?m.b.name:null};});
-  try{localStorage.setItem("wc2026_bracket",JSON.stringify(state));}catch(e){}
-}
-function findTeam(n){for(var i=0;i<R32.length;i++) if(R32[i].name===n) return R32[i]; return null;}
-function load(){
-  var raw; try{raw=localStorage.getItem("wc2026_bracket");}catch(e){return;}
-  if(!raw) return;
-  try{
-    var state=JSON.parse(raw), map={};
-    state.forEach(function(s){map[s.id]=s;});
-    ALL.forEach(function(m){
-      var s=map[m.id]; if(!s) return;
-      m.a=findTeam(s.a); m.b=findTeam(s.b);
-      m.sa=s.sa; m.sb=s.sb; m.winner=s.winner; m.pens=!!s.pens;
-    });
-  }catch(e){}
-}
-
-// ====== EDIT MODE TOGGLE (password) ======
-var statusEl=document.getElementById("status");
-var resetBtn=document.getElementById("resetBtn");
-var bgSelectEl=document.getElementById("bgSelect");
-function setEditMode(next){
-  editable=next;
-  statusEl.textContent=next?"Editing":"";
-  statusEl.style.display=next?"inline":"none";
-  statusEl.classList.toggle("on", next);
-  document.getElementById("bgSelectWrap").classList.toggle("show", next);
-  render();
-}
-function promptForEdit(){
-  var pw=prompt("Enter edit password:");
-  if(pw===null) return false;
-  if(pw===EDIT_PASSWORD){
-    setEditMode(true);
-    return true;
-  }
-  alert("Wrong password.");
-  return false;
-}
-document.addEventListener("keydown", function(e){
-  if(e.key==="Escape"){
-    if(editable){ setEditMode(false); }
-    return;
-  }
-  if((e.metaKey || e.ctrlKey) && e.altKey && e.key.toLowerCase()==="e"){
-    e.preventDefault();
-    if(editable){ setEditMode(false); }
-    else { promptForEdit(); }
-  }
-});
-document.getElementById("editTrigger").addEventListener("click", function(e){
-  e.preventDefault();
-  if(editable){ setEditMode(false); }
-  else { promptForEdit(); }
-});
-function populateBackgroundOptions(){
-  var select=bgSelectEl;
-  if(!select) return;
-  BACKGROUND_IMAGES.forEach(function(item){
-    var opt=document.createElement("option");
-    opt.value=item.value;
-    opt.textContent=item.label;
-    select.appendChild(opt);
+// ====== DEFAULT RESULTS ======
+var COMPLETED_RESULTS = {
+  m0: {sa: 1, sb: 1, winner: "b", pens: true},
+  m2: {sa: 0, sb: 1, winner: "b", pens: false},
+  m3: {sa: 1, sb: 1, winner: "b", pens: true},
+  m15: {sa: 2, sb: 1, winner: "a", pens: false}
+};
+function applyCompletedMatches(){
+  Object.keys(COMPLETED_RESULTS).forEach(function(id){
+    var m = byId[id], res = COMPLETED_RESULTS[id];
+    if(!m || !res) return;
+    m.sa = res.sa;
+    m.sb = res.sb;
+    m.pens = !!res.pens;
+    setWinner(m, res.winner);
   });
 }
-function applyBackground(value){
-  var root=document.documentElement;
-  try{localStorage.setItem("wc2026_bg", value||"");}catch(e){}
-  if(!value){
-    root.style.setProperty("--bg", "#0a0a0c");
-    root.style.setProperty("--panel", "#5be7e0");
-    root.style.setProperty("--panel-text", "#06121a");
-    root.style.setProperty("--empty", "#1c1d22");
-    root.style.setProperty("--empty-line", "#2b2d34");
-    root.style.setProperty("--text", "#f2f4f5");
-    root.style.setProperty("--muted", "#8c9196");
-    document.body.style.backgroundImage="";
-    return;
-  }
-  document.body.style.backgroundImage="url('"+value+"')";
-}
-if(bgSelectEl){
-  populateBackgroundOptions();
-  var savedBg="";
-  try{savedBg=localStorage.getItem("wc2026_bg")||"";}catch(e){}
-  if(savedBg){ bgSelectEl.value=savedBg; }
-  bgSelectEl.addEventListener("change", function(){applyBackground(this.value);});
-  applyBackground(savedBg);
-}
-if(resetBtn){
-  resetBtn.onclick=function(){
-    if(!editable) return;
-    if(!confirm("Reset the whole bracket?")) return;
-    try{localStorage.removeItem("wc2026_bracket");}catch(e){}
-    location.reload();
-  };
-}
 
-setEditMode(false);
-load(); render();
+applyCompletedMatches();
+render();
 </script>
 </body>
 </html>
